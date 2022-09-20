@@ -1,10 +1,9 @@
 const express = require('express');
 const mysql = require('mysql');
-//const redis_server = require('./redis_server');
 
 const redis = require('redis');
 
-//const redis_client = redis.createClient();
+
 
 // -------CONFIGURACION DE REDIS EN 3 CLIENTES-------
 const redis_client = redis.createClient({
@@ -12,48 +11,20 @@ const redis_client = redis.createClient({
     url:"redis://172.30.3.4"
 });
 
-/*
-const redis_client2 = redis.createClient({
-    //url:"redis://redis2"
-    url:"redis://172.30.3.5"
-});
 
-const redis_client3 = redis.createClient({
-    //url:"redis://redis3"
-    url:"redis://172.30.3.6"
-});*/
 
-// -------VALIDACIÓN DE CONEXIÓN DE REDIS EN 3 CLIENTES-------
 redis_client.on('ready',()=>{
     console.log("Redis1 listo")
     console.log("-------------------------------------------------------------------------------------------------------------")
 })
-/*
-redis_client2.on('ready',()=>{
-    console.log("Redis2 listo")
-    console.log("-------------------------------------------------------------------------------------------------------------")
-})
-
-redis_client3.on('ready',()=>{
-    console.log("Redis3 listo")
-    console.log("-------------------------------------------------------------------------------------------------------------")
-})
-*/
-// -------CONEXIÓN MICROSERVICIOS CLIENTES DE REDIS-------
-/*
-redis_client.connect()
-redis_client2.connect()
-redis_client3.connect()*/
 
 
-console.log('Redis conection: '+redis_client.isOpen);/*
-console.log('Redis conection: '+redis_client2.isOpen);
-console.log('Redis conection: '+redis_client3.isOpen);*/
+console.log('Redis conection: '+redis_client.isOpen);
 
 
 const con = mysql.createConnection({
-    //host: "172.30.3.3",
-    host: "localhost",
+    host: "172.30.3.3",
+    //host: "localhost",
     user: "root",
     password: "rootpass",
     database: "distribuidos",
@@ -181,8 +152,7 @@ app.post('/keyword', (req, res) => {
         //Si esta en cache, usa Redis
         if(response.length){
             console.log("\n\n ESTA EN CACHE \n\n")
-            //console.log(response)
-            //console.log(response[0])
+
             res.send(response[0])
         }
         //No esta en cache, usa gRPC y va a la base de datos
@@ -199,9 +169,6 @@ app.post('/keyword', (req, res) => {
                     res.send(err);
                 }
                 else{ //Si la query es correcta
-                    //res.send(result[0].id_url);
-                    //res.send(result.id_url)
-                    //res.send(result)
                     
                     const resultados = []
         

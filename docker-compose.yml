@@ -1,16 +1,16 @@
 version: '3'
 services:
 
-    #client: # app que contiene un api en expŕess y hace consultas a redis
-    #    container_name: cliente-http
-    #    build: ./client
-    #    ports:
-    #    - "3000:3000"
-    #    depends_on:
-    #        - mariadb
-    #    networks:
-    #        backend:
-    #            ipv4_address: 172.30.3.2
+    client: # app que contiene un api en expŕess y hace consultas a redis
+        container_name: cliente-http
+        build: ./client
+        ports:
+        - "3000:3000"
+        depends_on:
+            - mariadb
+        networks:
+            backend:
+                ipv4_address: 172.30.3.2
 
     mariadb:
         image: mariadb:10.3.9
@@ -40,13 +40,6 @@ services:
         - ALLOW_EMPTY_PASSWORD=yes
         - REDIS_REPLICATION_MODE=master
         command: "/opt/bitnami/scripts/redis/run.sh --maxmemory 5mb --maxmemory-policy allkeys-lfu"
-        #  [
-        #     "redis-server",
-        #     "--bind",
-        #     "redis1",
-        #     "--maxmemory 2mb",
-        #     "--maxmemory-policy allkeys-lru"
-        #  ]
         networks:
             backend:
                 ipv4_address: 172.30.3.4
@@ -61,14 +54,6 @@ services:
         - ALLOW_EMPTY_PASSWORD=yes
         - REDIS_MASTER_PORT_NUMBER=6379
         - REDIS_MASTER_HOST=redis1
-        # command:
-        #  [
-        #     "redis-server",
-        #     "--bind",
-        #     "redis2",
-        #     "--maxmemory 2mb",
-        #     "--maxmemory-policy allkeys-lru"
-        #  ]
         networks:
             backend:
                 ipv4_address: 172.30.3.5
@@ -83,14 +68,6 @@ services:
         - ALLOW_EMPTY_PASSWORD=yes
         - REDIS_MASTER_PORT_NUMBER=6379
         - REDIS_MASTER_HOST=redis1
-        # command:
-        #  [
-        #     "redis-server",
-        #     "--bind",
-        #     "redis3",
-        #     "--maxmemory 2mb",
-        #     "--maxmemory-policy allkeys-random"
-        #  ]
         networks:
             backend:
                 ipv4_address: 172.30.3.6
